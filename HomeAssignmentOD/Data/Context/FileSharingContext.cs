@@ -8,6 +8,9 @@ namespace Data.Context
 {
     public class FileSharingContext
     {
-        internal IQueryable<TextFileModel> TextFileModels;
+        public IQueryable<TextFileModel> TextFileModels;
+        
+
+        
     }
 }
