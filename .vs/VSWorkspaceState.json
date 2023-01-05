@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HomeAssignmentOD"
+    "\\HomeAssignmentOD",
+    "\\HomeAssignmentOD\\Domain",
+    "\\HomeAssignmentOD\\Domain\\Models"
   ],
-  "SelectedNode": "\\HomeAssignmentOD\\HomeAssignmentOD.sln",
   "PreviewInSolutionExplorer": false
 }
