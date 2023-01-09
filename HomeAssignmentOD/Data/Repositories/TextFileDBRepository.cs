@@ -9,77 +9,66 @@ using System.Text;
 
 namespace Data.Repositories
 {
+    //It should contain methods for interacting with the TextFile data in the database, such as Edit, Create, Share, and GetFile(s).
     public class TextFileDBRepository
     {
 
-        
+
         private FileSharingContext context { get; set; }
 
         public TextFileDBRepository(FileSharingContext _context)
         {
-             context = _context;
+            context = _context;
         }
-        
-
-        
-
-        public void Share(int fileId, string recipient)
+        public IQueryable<TextFileModel> GetTextFileModel()
         {
-            // Retrieve the file from the database
-            TextFile file = context.TextFiles.Find(fileId);
+            return context.TextFileModels;
+        }
+        public void Share(Guid fileId, string recipient)
+        {
+            var file = context.TextFileModels.Find(fileId);
             if (file == null)
             {
-                throw new FileNotFoundException("File with specified ID was not found.");
+                throw new Exception("File not found");
             }
 
-            // Add the recipient to the list of users with access to the file
-            file.SharedWith.Add(recipient);
-
-            // Save changes to the database
+            var acl = new AclModel
+            {
+                FileName = fileId,
+                Username = recipient
+            };
+            context.AclModels.Add(acl);
             context.SaveChanges();
         }
 
-
-        public void Edit(int fileId, string changes)
+        public void Edit(Guid fileId, string changes)
         {
-            
-        }
+            var file = context.TextFileModels.Find(fileId);
+            if (file == null)
+            {
+                throw new Exception("File not found");
+            }
 
+            file.Data = changes;
+            file.LastUpdated = DateTime.UtcNow;
+            context.TextFileModels.Update(file);
+            context.SaveChanges();
+        }
 
         public void Create(TextFileModel f)
         {
-
+            context.TextFileModels.Add(f);
+            context.SaveChanges();
         }
 
-        public IEnumerable<string> GetPermissions(int fileId)
+        public List<AclModel> GetPermissions(Guid fileId)
         {
-            // Retrieve the text file from the database
-            var textFile = context.TextFiles.FirstOrDefault(f => f.Id == fileId);
-            if (textFile == null)
-            {
-                throw new Exception($"Text file with ID {fileId} was not found.");
-                
-            }
-
-            // Return a list of recipients that have been granted access to the text file
-            return context.TextFileAccesses
-                .Where(a => a.TextFile == textFile)
-                .Select(a => a.Recipient)
-                .ToList();
+            return context.AclModels.Where(a => a.FileName == fileId).ToList();
         }
-
-        public IEnumerable<TextFileModel> GetFileEntries()
-        {
-            // Retrieve a list of all text files from the database
-            return context.TextFiles.ToList();
-        }
-
-
-
     }
-
-
 }
+
+       // public List<TextFileModel> GetFileEntries()
         
 
-
+            

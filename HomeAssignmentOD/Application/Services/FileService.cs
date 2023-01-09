@@ -6,6 +6,8 @@ using System.Text;
 
 namespace Application.Services
 {
+    //It should contain methods for performing business logic related to the file sharing application,
+    //such as validating input, interacting with the repository, and interacting with the view models.
     public class FileService
     {
         private TextFileDBRepository tr;
@@ -14,36 +16,39 @@ namespace Application.Services
             tr = _textFileDBRepository;
         }
 
-
-
-        public void Share(int fileId, string recipient)
-        {
-            tr.Share(fileId, recipient);
-           
-        }
-
-        public void Edit(int fileId, string changes)
-        {
-            // Check if the user has permission to edit the file
-            if (!HasEditPermission(user, fileName))
-            {
-                throw new UnauthorizedAccessException("User does not have permission to edit this file.");
-            }
+       
+       
 
 
 
+        //public void Share(int fileId, string recipient)
+        //{
+        //    tr.Share(fileId, recipient);
 
-        }
+        //}
 
-        private bool HasEditPermission(object user, object fileName)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Edit(int fileId, string changes)
+        //{
+        //    // Check if the user has permission to edit the file
+        //    if (!HasEditPermission(user, fileName))
+        //    {
+        //        throw new UnauthorizedAccessException("User does not have permission to edit this file.");
+        //    }
 
-        public void Create(TextFileModel f)
-        {
-            tr.Create(f);
-        }
+
+
+
+        //}
+
+        //private bool HasEditPermission(object user, object fileName)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void Create(TextFileModel f)
+        //{
+        //    tr.Create(f);
+        //}
     }
 }
 
