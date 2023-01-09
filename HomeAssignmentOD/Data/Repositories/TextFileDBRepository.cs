@@ -1,5 +1,6 @@
 ﻿using Data.Context;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,13 +25,24 @@ namespace Data.Repositories
 
         public void Share(int fileId, string recipient)
         {
-            
+            // Retrieve the file from the database
+            TextFile file = context.TextFiles.Find(fileId);
+            if (file == null)
+            {
+                throw new FileNotFoundException("File with specified ID was not found.");
+            }
+
+            // Add the recipient to the list of users with access to the file
+            file.SharedWith.Add(recipient);
+
+            // Save changes to the database
+            context.SaveChanges();
         }
 
 
         public void Edit(int fileId, string changes)
         {
-
+            
         }
 
 

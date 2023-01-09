@@ -8,9 +8,12 @@ namespace Data.Context
 {
     public class FileSharingContext
     {
+        public int TextFiles;
         public IQueryable<TextFileModel> TextFileModels;
-        
 
-        
+        public void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

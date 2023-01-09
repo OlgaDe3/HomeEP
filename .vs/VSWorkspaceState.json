@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\HomeAssignmentOD",
+    "\\HomeAssignmentOD\\Application",
+    "\\HomeAssignmentOD\\Application\\Services",
     "\\HomeAssignmentOD\\Domain",
     "\\HomeAssignmentOD\\Domain\\Models"
   ],
+  "SelectedNode": "\\HomeAssignmentOD\\Application\\Services\\FileService.cs",
   "PreviewInSolutionExplorer": false
 }

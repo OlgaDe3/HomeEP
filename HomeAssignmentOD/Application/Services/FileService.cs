@@ -19,6 +19,7 @@ namespace Application.Services
         public void Share(int fileId, string recipient)
         {
             tr.Share(fileId, recipient);
+           
         }
 
         public void Edit(int fileId, string changes)
