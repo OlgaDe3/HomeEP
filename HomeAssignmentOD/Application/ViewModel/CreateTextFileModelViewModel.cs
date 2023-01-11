@@ -24,6 +24,8 @@ namespace Application.ViewModel
         public string LastEditedBy { get; set; }
         public DateTime LastUpdated { get; set; }
 
+       
+
 
 
 

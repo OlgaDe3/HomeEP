@@ -16,5 +16,7 @@ namespace Domain.Models
         public string Author { get; set; }
         public string LastEditedBy { get; set; }
         public DateTime LastUpdated { get; set; }
+        public List<string> SharedUsers { get; set; } = new List<string>();
+        
     }
 }

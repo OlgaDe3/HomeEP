@@ -6,6 +6,7 @@ namespace Application.ViewModel
 {
     public class TextFileModelViewModel
     {
+        public int Id { get; set; }
         public Guid FileName { get; set; }
         public DateTime UploadedOn { get; set; }
         public string Data { get; set; }

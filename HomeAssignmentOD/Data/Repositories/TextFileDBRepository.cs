@@ -12,7 +12,7 @@ namespace Data.Repositories
     //It should contain methods for interacting with the TextFile data in the database, such as Edit, Create, Share, and GetFile(s).
     public class TextFileDBRepository
     {
-
+        public readonly IEnumerable<object> Users;
 
         private FileSharingContext context { get; set; }
 
@@ -20,11 +20,31 @@ namespace Data.Repositories
         {
             context = _context;
         }
-        public IQueryable<TextFileModel> GetTextFileModel()
+
+
+        public IQueryable<TextFileModel> GetTextFileModels()
         {
             return context.TextFileModels;
         }
-        public void Share(Guid fileId, string recipient)
+        //public void Share(Guid fileName, string recipient)
+        //{
+        //    var file = context.TextFileModels.Find(fileName);
+        //    if (file == null)
+        //    {
+        //        throw new Exception("File not found");
+        //    }
+
+        //    var acl = new AclModel
+        //    {
+        //        FileName = fileName,
+        //        Username = recipient
+        //    };
+        //    context.AclModels.Add(acl);
+        //    context.SaveChanges();
+        //}
+
+
+        public void Share(int fileId, string recipient)
         {
             var file = context.TextFileModels.Find(fileId);
             if (file == null)
@@ -32,27 +52,55 @@ namespace Data.Repositories
                 throw new Exception("File not found");
             }
 
-            var acl = new AclModel
+            if (!context.Users.Any(u => u.UserName == recipient))
             {
-                FileName = fileId,
-                Username = recipient
-            };
-            context.AclModels.Add(acl);
+                throw new Exception("Recipient does not exist or does not have access to the file");
+            }
+
+            if (file.SharedUsers.Any(u => u == recipient))
+            {
+                throw new Exception("Recipient already has access to this file");
+            }
+            file.SharedUsers.Add(recipient);
+            context.TextFileModels.Update(file);
             context.SaveChanges();
         }
 
-        public void Edit(Guid fileId, string changes)
-        {
-            var file = context.TextFileModels.Find(fileId);
-            if (file == null)
-            {
-                throw new Exception("File not found");
-            }
 
-            file.Data = changes;
-            file.LastUpdated = DateTime.UtcNow;
-            context.TextFileModels.Update(file);
+
+        public TextFileModel GetTextFileModel(int id)
+        {
+            return context.TextFileModels.SingleOrDefault(x => x.Id == id);
+        }
+
+        public void Edit( TextFileModel updatedTextFile)
+        {
+            //var file = context.TextFileModels.Find(fileId);
+            //if (file == null)
+            //{
+            //    throw new Exception("File not found");
+            //}
+
+            //1. get the original item from the db
+
+            var originaTextFile = GetTextFileModel(updatedTextFile.Id); //the Id should never be allowed to change
+
+            //2. update the details which were supposed to be updated one by one
+
+
+            originaTextFile.FileName = updatedTextFile.FileName; //AutoMapper
+            originaTextFile.UploadedOn = updatedTextFile.UploadedOn;
+            originaTextFile.Data = updatedTextFile.Data;
+            originaTextFile.Author = updatedTextFile.Author;
+            originaTextFile.LastEditedBy = updatedTextFile.LastEditedBy;
+            originaTextFile.LastUpdated = updatedTextFile.LastUpdated;
             context.SaveChanges();
+
+
+            //file.Data = changes;
+            //file.LastUpdated = DateTime.UtcNow;
+            //context.TextFileModels.Update(file);
+            //context.SaveChanges();
         }
 
         public void Create(TextFileModel f)
@@ -64,6 +112,11 @@ namespace Data.Repositories
         public List<AclModel> GetPermissions(Guid fileId)
         {
             return context.AclModels.Where(a => a.FileName == fileId).ToList();
+        }
+
+        public IEnumerable<object> GetUsers()
+        {
+            throw new NotImplementedException();
         }
     }
 }

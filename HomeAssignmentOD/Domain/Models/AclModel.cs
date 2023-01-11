@@ -12,9 +12,11 @@ namespace Domain.Models
        
              [Key]
             public int Id { get; set; }
+            
             public Guid FileName { get; set; }
 
             [ForeignKey("FileName")]
+            public int AclId { get; set; }
             public TextFileModel TextFile { get; set; }
 
             public string Username { get; set; }
