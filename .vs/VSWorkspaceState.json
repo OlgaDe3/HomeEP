@@ -4,9 +4,11 @@
     "\\HomeAssignmentOD",
     "\\HomeAssignmentOD\\Application",
     "\\HomeAssignmentOD\\Application\\Services",
+    "\\HomeAssignmentOD\\Data",
+    "\\HomeAssignmentOD\\Data\\Repositories",
     "\\HomeAssignmentOD\\Domain",
     "\\HomeAssignmentOD\\Domain\\Models"
   ],
-  "SelectedNode": "\\HomeAssignmentOD\\Application\\Services\\FileService.cs",
+  "SelectedNode": "\\HomeAssignmentOD\\Data\\Repositories\\TextFileDBRepository.cs",
   "PreviewInSolutionExplorer": false
 }

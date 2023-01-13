@@ -14,9 +14,10 @@ namespace Application.Services
         public AclModelService(IAclModelRepository _aclModelRepository)
         {
             ar = _aclModelRepository;
+
         }
 
-        public IQueryable<AclModelViewModel> GetAclModels()
+        public IQueryable<AclModelViewModel>GetAclModels()
         { //AutoMapper -- still to be implemented to replace the following code:
             var list = from a in ar.GetAclModels()
                        select new AclModelViewModel()
@@ -30,3 +31,4 @@ namespace Application.Services
         }
     }
 }
+
