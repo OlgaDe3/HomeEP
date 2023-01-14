@@ -23,6 +23,13 @@ namespace Application.Services
             ar = _aclModelRepository;
         }
 
+        public TextFileModel GetTextFileModel(int id)
+        {
+            return tr.GetTextFileModel(id);
+        }
+
+        
+
 
         public IQueryable<TextFileModelViewModel> GetTextFileModels()
         {
@@ -36,7 +43,7 @@ namespace Application.Services
                            Data = t.Data,
                            Author = t.Author,
                            LastEditedBy = t.LastEditedBy,
-                           LastUpdated = t.LastUpdated
+                           LastUpdated = t.LastUpdated,
                        };
             return list;
 
@@ -122,7 +129,7 @@ namespace Application.Services
 
         }
 
-        private bool HasEditPermission(object user, object fileName)
+        public bool HasEditPermission(string user, string fileName)
         {
             throw new NotImplementedException();
         }

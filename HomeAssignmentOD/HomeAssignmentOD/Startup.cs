@@ -1,4 +1,6 @@
+using Application.Services;
 using Data.Context;
+using Data.Repositories;
 using HomeAssignmentOD.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +37,14 @@ namespace HomeAssignmentOD
                 .AddEntityFrameworkStores<FileSharingContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+
+            services.AddScoped<FileService>();
+            services.AddScoped<TextFileDBRepository>();
         }
+        
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

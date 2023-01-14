@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.Options;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace HomeAssignmentOD.Controllers
 {
@@ -16,9 +19,9 @@ namespace HomeAssignmentOD.Controllers
     {
         
         private FileService fileService;
-        private AclModelService aclModelService;
+        private aclModelService aclModelService;
         private IWebHostEnvironment host;
-        public FileController(FileService _fileService, AclModelService _aclModelService, IWebHostEnvironment _host)
+        public FileController(FileService _fileService, aclModelService _aclModelService, IWebHostEnvironment _host)
         {
             fileService = _fileService;
             aclModelService = _aclModelService;
@@ -37,9 +40,9 @@ namespace HomeAssignmentOD.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateTextFileModelViewModel data, IFormFile file)
+        public IActionResult Create(CreateTextFileModelViewModel datas, IFormFile file)
         {
-            fileService.Create(data);
+            fileService.Create(datas);
 
             // Check if file is not null
             if (file == null || file.Length == 0)
@@ -57,7 +60,7 @@ namespace HomeAssignmentOD.Controllers
                 file.CopyTo(stream);
             }
 
-            return View(data);
+            return View(datas);
         }
 
 
@@ -88,58 +91,111 @@ namespace HomeAssignmentOD.Controllers
         //    context.SaveChanges();
         //}
 
+        [HttpGet]
+        public IActionResult Share(int fileId)
+        {
+            var users = aclModelService.GetAclModels();
+            var model = new ShareViewModel
+            {
+                FileId = fileId,
+                Users = users
+             };
+            return View(model);
 
+            
+        }
 
+        [HttpPost]
+        public IActionResult Share(int fileId, string recipient)
+        {
+            try
+            {
+                fileService.Share(fileId, recipient);
+                ViewBag.Message = "File shared successfully with " + recipient;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "File not found")
+                {
+                    ViewBag.Error = "File not found. Sharing operation couldn't be completed";
+                }
+                else
+                {
+                    ViewBag.Error = "An error occurred while sharing the file";
+                }
+            }
 
-        // Action to handle the Edit view
-        //[Authorize]
-        //public IActionResult Edit(string fileName, int id)
-        //{
+            var users = aclModelService.GetAclModels();
+            var model = new ShareViewModel 
+            { 
+                FileId = fileId, 
+                Users = users 
+            };
+            return View(model);
+           
+        }
 
-        //    var originalTextFile = fileService.GetTextFileModels(id);
-        //    var aclModels = aclModelService.GetAclModels();
-
-        //    CreateTextFileModelViewModel model = new CreateTextFileModelViewModel();
-        //    model.Categories = categories.ToList();
-        //    model.FileName = originalTextFile.FileName();
-        //    model.UploadedOn = originalTextFile.Name;
-        //    model.Data = originalTextFile.Data;
-        //    model.Author = originalTextFile.Author;
-        //    model.LastEditedBy = originalTextFile.PhotoPath;
-        //    model.LastUpdated = originalTextFile.LastUpdated;
-         
-
-        //    return View(model);
-
-
-        //    var currentUser = User.Identity.Name;
-        //    var user = _context.Users.FirstOrDefault(u => u.Username == currentUser);
-        //    if (user.SharedFiles.Contains(fileName))
+        //Share.cshtml
+        //    <div class="text-danger">@ViewData["Error"]</div>
+        //<div>
+        //    <label for="Recipient">Recipient:</label>
+        //    <select id = "Recipient" name="Recipient">
+        //        <option value = "" > Please select a recipient</option>
+        //        @foreach(var user in Model.Users)
         //    {
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        return Forbid(); //This means that the client has authenticated successfully but does not have access to the requested resource.
-        //    }
-        //}
+        //            < option value = "@user.Email" > @user.Email </ option >
+        //        }
+        //    </select>
+        //</div>
+        //<span class="text-danger">@ViewData.ModelState["Recipient"].Errors[0].ErrorMessage</span>
 
-        //[HttpPost]
-        //[Authorize]
-        //public IActionResult Edit(string fileName, string newContent)
-        //{
-        //    // Implement code to edit the file
-        //    var currentUser = User.Identity.Name;
-        //    var user = _context.Users.FirstOrDefault(u => u.Username == currentUser);
-        //    if (user.SharedFiles.Contains(fileName))
-        //    {
-        //        // Code to update the file content
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        return Forbid();
-        //    }
-    }   //}
+
+        [Authorize]
+        public IActionResult Edit(string fileName, int id)
+        {
+            var originalTextFile = fileService.GetTextFileModels();
+            var aclModels = aclModelService.GetAclModels();
+
+            CreateTextFileModelViewModel model = new CreateTextFileModelViewModel();
+            model.AclModelViewModels = aclModels.ToList();
+            model.FileName = originalTextFile.FileName;
+            model.UploadedOn = originalTextFile.UploadedOn;
+            model.Data = originalTextFile.Data;
+            model.Author = originalTextFile.Author;
+            model.LastEditedBy = originalTextFile.LastEditedBy;
+            model.LastUpdated = originalTextFile.LastUpdated;
+
+
+            var currentUser = User.Identity.Name;
+            var user = aclModelService.Users.FirstOrDefault(u => u.Username == currentUser);
+            if (user.SharedFiles.Contains(fileName))
+            {
+                return View(model);
+            }
+            else
+            {
+                return Forbid(); //This means that the client has authenticated successfully but does not have access to the requested resource.
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(string fileName, string newContent)
+        {
+            var currentUser = User.Identity.Name;
+            var user = context.Users.FirstOrDefault(u => u.Username == currentUser);
+            if (user.SharedFiles.Contains(fileName))
+            {
+                fileService.Edit(fileName, newContent);
+                
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
+
+    }
 }
 

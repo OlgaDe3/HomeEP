@@ -1,4 +1,5 @@
 ﻿using Data.Context;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Text;
 namespace Data.Repositories
 {
     //It should contain methods for interacting with the TextFile data in the database, such as Edit, Create, Share, and GetFile(s).
-    public class TextFileDBRepository
+    public class TextFileDBRepository : ITextFileRepository
     {
         public readonly IEnumerable<object> Users;
 
@@ -73,6 +74,8 @@ namespace Data.Repositories
             return context.TextFileModels.SingleOrDefault(x => x.Id == id);
         }
 
+
+
         public void Edit( TextFileModel updatedTextFile)
         {
             //var file = context.TextFileModels.Find(fileId);
@@ -114,7 +117,14 @@ namespace Data.Repositories
             return context.AclModels.Where(a => a.FileName == fileId).ToList();
         }
 
+        
+
         public IEnumerable<object> GetUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public TextFileModel GetTextFileModels(int id)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Application.ViewModel
@@ -9,9 +11,13 @@ namespace Application.ViewModel
      
         
             public int FileId { get; set; }
-            public List<string> Users { get; set; }
-            public string SelectedUsername { get; set; }
+            // List<AclModelViewModel> Users { get; set; }
+            public IQueryable<AclModelViewModel> Users { get; set; }
+            //public string SelectedUsername { get; set; }
+
        
+
+        
 
     }
 }

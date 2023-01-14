@@ -13,5 +13,6 @@ namespace Application.ViewModel
         public string Author { get; set; }
         public string LastEditedBy { get; set; }
         public DateTime LastUpdated { get; set; }
+       
     }
 }

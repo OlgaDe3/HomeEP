@@ -9,6 +9,6 @@
     "\\HomeAssignmentOD\\Domain",
     "\\HomeAssignmentOD\\Domain\\Models"
   ],
-  "SelectedNode": "\\HomeAssignmentOD\\Data\\Repositories\\TextFileDBRepository.cs",
+  "SelectedNode": "\\HomeAssignmentOD\\Application\\Services\\FileService.cs",
   "PreviewInSolutionExplorer": false
 }

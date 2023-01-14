@@ -8,10 +8,10 @@ using System.Text;
 
 namespace Application.Services
 {
-    public class AclModelService
+    public class aclModelService
     {
-        private IAclModelRepository ar;
-        public AclModelService(IAclModelRepository _aclModelRepository)
+        private ITextFileRepository ar;
+        public aclModelService(ITextFileRepository _aclModelRepository)
         {
             ar = _aclModelRepository;
 
