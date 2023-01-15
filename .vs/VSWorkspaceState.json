@@ -7,8 +7,10 @@
     "\\HomeAssignmentOD\\Data",
     "\\HomeAssignmentOD\\Data\\Repositories",
     "\\HomeAssignmentOD\\Domain",
-    "\\HomeAssignmentOD\\Domain\\Models"
+    "\\HomeAssignmentOD\\Domain\\Models",
+    "\\HomeAssignmentOD\\HomeAssignmentOD",
+    "\\HomeAssignmentOD\\HomeAssignmentOD\\Controllers"
   ],
-  "SelectedNode": "\\HomeAssignmentOD\\Application\\Services\\FileService.cs",
+  "SelectedNode": "\\HomeAssignmentOD\\HomeAssignmentOD\\Controllers\\FileController.cs",
   "PreviewInSolutionExplorer": false
 }

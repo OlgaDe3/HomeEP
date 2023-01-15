@@ -8,16 +8,11 @@ namespace Application.ViewModel
 {
     public class ShareViewModel
     {
-     
-        
             public int FileId { get; set; }
             // List<AclModelViewModel> Users { get; set; }
             public IQueryable<AclModelViewModel> Users { get; set; }
             //public string SelectedUsername { get; set; }
 
-       
-
-        
 
     }
 }

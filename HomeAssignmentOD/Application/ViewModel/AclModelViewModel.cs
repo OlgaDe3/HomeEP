@@ -10,9 +10,7 @@ namespace Application.ViewModel
     {
         public int Id { get; set; }
         public Guid FileName { get; set; }
-
         public TextFileModel TextFile { get; set; }
-
         public string Username { get; set; }
     }
 }

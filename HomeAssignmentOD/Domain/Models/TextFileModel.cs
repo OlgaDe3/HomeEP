@@ -8,6 +8,8 @@ namespace Domain.Models
     //It represents a text file and should contain properties such as FileName, UploadedOn, Data, Author, LastEditedBy, and LastUpdated.
     public class TextFileModel
     {
+        public List<string> Permissions;
+
         [Key]
         public int Id { get; set; }
         public Guid FileName { get; set; }
@@ -18,10 +20,6 @@ namespace Domain.Models
         public DateTime LastUpdated { get; set; }
         public List<string> SharedUsers { get; set; } = new List<string>();
         public string Checksum { get; set; }
-
-        
-
-
 
     }
 }

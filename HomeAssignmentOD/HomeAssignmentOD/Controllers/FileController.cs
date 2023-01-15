@@ -29,8 +29,6 @@ namespace HomeAssignmentOD.Controllers
             
         }
 
-
-
         // a method to handle the submission of the form
         [HttpGet]
         // Action to handle the Create view
@@ -62,34 +60,6 @@ namespace HomeAssignmentOD.Controllers
 
             return View(datas);
         }
-
-
-
-        // Action to handle the Share view
-        //[HttpGet]
-        //public IActionResult Share()
-        //{
-        //    var aclModels = fileService.GetAclModels();
-        //    CreateTextFileModelViewModel myModel = new CreateTextFileModelViewModel();
-        //    myModel.AclModelViewModels = aclModels.ToList();
-
-        //    return View(myModel);
-        //    //    var users = context.Users.Select(u => new { u.Id, u.Username });
-        //    //    ViewBag.Users = new SelectList(users, "Id", "Username");
-        //    //    return View();
-        //}
-
-
-
-        //[HttpPost]
-        //public IActionResult Share(int userId, string fileName)
-        //{
-        //    // Implement code to share the file with the selected user
-        //    var user = context.Users.GetAclModels(userId);
-        //    // Add the file to the user's shared files list
-        //    user.SharedFiles.Add(fileName);
-        //    context.SaveChanges();
-        //}
 
         [HttpGet]
         public IActionResult Share(int fileId)

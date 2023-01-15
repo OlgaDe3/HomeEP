@@ -18,8 +18,6 @@ namespace Data.Repositories
             context = _context;
         }
 
-        
-
         public IQueryable<AclModel> GetAclModels()
         {
             return context.AclModels;
@@ -32,7 +30,15 @@ namespace Data.Repositories
             throw new NotImplementedException();
         }
 
-        
+        public TextFileModel GetTextFileModels(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit(TextFileModel textFile)
+        {
+            throw new NotImplementedException();
+        }
     }
 
    

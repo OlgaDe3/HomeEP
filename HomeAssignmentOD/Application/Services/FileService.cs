@@ -28,9 +28,6 @@ namespace Application.Services
             return tr.GetTextFileModel(id);
         }
 
-        
-
-
         public IQueryable<TextFileModelViewModel> GetTextFileModels()
         {
 
@@ -53,7 +50,6 @@ namespace Application.Services
             return GetTextFileModels().SingleOrDefault(x => x.Id == id);
         }
 
-
         public void Create(CreateTextFileModelViewModel file)
         {
             if (tr.GetTextFileModels().Any(myFile => myFile.FileName == file.FileName))
@@ -71,15 +67,7 @@ namespace Application.Services
                 });
             }
         }
-
-
-        //public void Share(int fileId, string recipient)
-        //{
-        //    tr.Share(fileId, recipient);
-
-        //}
-
-      
+        
 
         public void Share(int fileId, string recipient)
         {
@@ -97,23 +85,13 @@ namespace Application.Services
             }
         }
 
-        //public List<string> GetUsers()
-        //{
-        //    return tr.GetUsers().Select(u =>
-        //    {
-        //        return u.Username;
-        //    }).ToList();
-        //}
-
-
-
         public void Edit(int id, CreateTextFileModelViewModel updatedTextFile)
         {
             //check if user has permission to edit the file
-            //if (!HasEditPermission.CanEdit(updatedTextFile.LastEditedBy, fileId))
-            //{
-            //    throw new Exception("User does not have permission to edit this file");
-            //}
+            if (!HasEditPermission.CanEdit(updatedTextFile.LastEditedBy, id))
+            {
+                throw new Exception("User does not have permission to edit this file");
+            }
             tr.Edit(
                 new Domain.Models.TextFileModel()
                 {

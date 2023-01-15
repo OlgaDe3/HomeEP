@@ -22,29 +22,11 @@ namespace Data.Repositories
             context = _context;
         }
 
-
         public IQueryable<TextFileModel> GetTextFileModels()
         {
             return context.TextFileModels;
         }
-        //public void Share(Guid fileName, string recipient)
-        //{
-        //    var file = context.TextFileModels.Find(fileName);
-        //    if (file == null)
-        //    {
-        //        throw new Exception("File not found");
-        //    }
-
-        //    var acl = new AclModel
-        //    {
-        //        FileName = fileName,
-        //        Username = recipient
-        //    };
-        //    context.AclModels.Add(acl);
-        //    context.SaveChanges();
-        //}
-
-
+    
         public void Share(int fileId, string recipient)
         {
             var file = context.TextFileModels.Find(fileId);
@@ -68,21 +50,18 @@ namespace Data.Repositories
         }
 
 
-
         public TextFileModel GetTextFileModel(int id)
         {
             return context.TextFileModels.SingleOrDefault(x => x.Id == id);
         }
 
-
-
-        public void Edit( TextFileModel updatedTextFile)
+        public void Edit(int fileId, TextFileModel updatedTextFile)
         {
-            //var file = context.TextFileModels.Find(fileId);
-            //if (file == null)
-            //{
-            //    throw new Exception("File not found");
-            //}
+            var file = context.TextFileModels.Find(fileId);
+            if (file == null)
+            {
+                throw new Exception("File not found");
+            }
 
             //1. get the original item from the db
 
@@ -99,11 +78,6 @@ namespace Data.Repositories
             originaTextFile.LastUpdated = updatedTextFile.LastUpdated;
             context.SaveChanges();
 
-
-            //file.Data = changes;
-            //file.LastUpdated = DateTime.UtcNow;
-            //context.TextFileModels.Update(file);
-            //context.SaveChanges();
         }
 
         public void Create(TextFileModel f)
@@ -117,14 +91,22 @@ namespace Data.Repositories
             return context.AclModels.Where(a => a.FileName == fileId).ToList();
         }
 
-        
-
         public IEnumerable<object> GetUsers()
         {
             throw new NotImplementedException();
         }
 
         public TextFileModel GetTextFileModels(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<AclModel> GetAclModels()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit(TextFileModel textFile)
         {
             throw new NotImplementedException();
         }

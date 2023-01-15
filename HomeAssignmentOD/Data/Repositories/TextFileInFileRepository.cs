@@ -9,7 +9,6 @@ using System.Text;
 namespace Data.Repositories
 {
     public class TextFileInFileRepository: ITextFileRepository
-
     {
         public void Create(TextFileModel file)
         {
@@ -21,12 +20,7 @@ namespace Data.Repositories
             }
         }
 
-        public IQueryable<AclModel> GetAclModels()
-        {
-            List<AclModel> aclModels = new List<AclModel>();
-        }
-
-
+        
         public void Edit( string fileName, TextFileModel file)
         {
             // Open the inventory.txt file
@@ -52,8 +46,7 @@ namespace Data.Repositories
             // Open the acl.txt file in append mode
             using (StreamWriter sw = new StreamWriter("acl.txt", true))
             {
-               
-                
+              
             }
         }
 
